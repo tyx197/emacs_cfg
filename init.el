@@ -1,47 +1,14 @@
-; Load slime
-(add-to-list 'load-path "~/.emacs.d/third/slime")
-(require 'slime-autoloads)
-(setq inferior-lisp-program "/usr/bin/sbcl")
+;; Set file coding
+(set-language-environment "UTF-8")
 
-; Load evil
-(setq evil-want-C-u-scroll t)
-(add-to-list 'load-path "~/.emacs.d/third/evil")
-(require 'evil)
-(evil-mode 1)
+;; Packages repo
+(setq package-archives '(("gnu" . "https://mirrors.ustc.edu.cn/elpa/gnu/")
+                         ("melpa" . "https://mirrors.ustc.edu.cn/elpa/melpa/")
+                         ("nongnu" . "https://mirrors.ustc.edu.cn/elpa/nongnu/")))
 
-; Load vmodule
-(add-to-list 'load-path "~/.emacs.d/my/vmodule")
-(require 'vmodule)
-
-; Set frame
-(add-to-list 'default-frame-alist '(foreground-color . "#c0c0c0"))
-(add-to-list 'default-frame-alist '(background-color . "#303030"))
-;(add-to-list 'default-frame-alist '(cursor-color . "coral"))
-(blink-cursor-mode 0)
-(setq fancy-splash-image "~/.emacs.d/theme/2.png")
-(set-frame-font "DejaVu Sans Mono 18" nil t)
-(when (version<= "26.0.50" emacs-version )
-  (global-display-line-numbers-mode))
-
-; Disable bars
-(tool-bar-mode 0)
-(menu-bar-mode 0)
-(scroll-bar-mode 0)
-
-; Line no wrap
-(set-default 'truncate-lines t)
-
-; Indent
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-(defvaralias 'c-basic-offset 'tab-width)
-(defvaralias 'cperl-indent-level 'tab-width)
-;(setq indent-line-function 'insert-tab)
-
-; Auto-save files directory
-;(setq make-backup-files nil)
-(let ((backup-dir "~/.emacs.d/backups")
-      (auto-saves-dir "~/.emacs.d/autosaves/"))
+;; Put backup files neatly away
+(let ((backup-dir "~/tmp/emacs/backups")
+      (auto-saves-dir "~/tmp/emacs/auto-saves/"))
   (dolist (dir (list backup-dir auto-saves-dir))
     (when (not (file-directory-p dir))
       (make-directory dir t)))
@@ -57,34 +24,33 @@
       kept-new-versions 5    ; keep some new versions
       kept-old-versions 2)   ; and some old ones, too
 
-; No symolic link lockfiles in current directory
-(setq create-lockfiles nil)
+;; GUI
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(menu-bar-mode -1)
+(load-theme 'gruvbox t)
+(set-frame-font "IosevkaTermSlab NFM 15" nil t)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(verilog-auto-indent-on-newline nil)
- '(verilog-auto-lineup 'all)
- '(verilog-auto-newline nil)
- '(verilog-case-indent 0)
- '(verilog-cexp-indent 0)
- '(verilog-indent-begin-after-if nil)
- '(verilog-indent-level 0)
- '(verilog-indent-level-behavioral 0)
- '(verilog-indent-level-declaration 0)
- '(verilog-indent-level-directive 0)
- '(verilog-indent-level-module 0))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(font-lock-keyword-face ((t (:foreground "yellow")))))
+;; Ivy
+(ivy-mode)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
 
-; Set font-lock faces
-(set-face-bold 'font-lock-keyword-face "bold")
-(set-face-foreground 'font-lock-comment-face "#6495ED")
-;(add-to-list 'face-remapping-alist '(font-lock-comment-face . ((t (:foreground "blue")))))
+;; Centaur-tabs
+(require 'centaur-tabs)
+(centaur-tabs-mode t)
+(global-set-key (kbd "C-<prior>")  'centaur-tabs-backward)
+(global-set-key (kbd "C-<next>") 'centaur-tabs-forward)
+(setq centaur-tabs-style "bar")
+(setq centaur-tabs-set-icons t)
+;(setq centaur-tabs-plain-icons t)
+(setq centaur-tabs-gray-out-icons 'buffer)
+(setq centaur-tabs-set-bar 'over)
+(setq centaur-tabs-close-button "X")
+(setq centaur-tabs-set-modified-marker t)
+(setq centaur-tabs-modified-marker "•")
 
+;; Custom file
+(setq custom-file (concat user-emacs-directory "custom.el"))
+(when (file-exists-p custom-file)
+  (load custom-file))
