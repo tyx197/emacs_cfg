@@ -30,6 +30,7 @@
 (menu-bar-mode -1)
 (load-theme 'gruvbox t)
 (set-frame-font "IosevkaTermSlab NFM 15" nil t)
+(global-display-line-numbers-mode)
 
 ;; Ivy
 (ivy-mode)
