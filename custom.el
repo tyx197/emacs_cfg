@@ -4,7 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(markdown-mode centaur-tabs all-the-icons gruvbox-theme verilog-mode counsel))
+   '(scala-mode markdown-mode centaur-tabs all-the-icons gruvbox-theme verilog-mode counsel))
  '(verilog-auto-indent-on-newline nil)
  '(verilog-auto-newline nil)
  '(verilog-case-indent 4)
