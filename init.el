@@ -28,7 +28,8 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
-(load-theme 'gruvbox t)
+;(load-theme 'gruvbox t)
+(load-theme 'catppuccin t)
 (set-frame-font "IosevkaTermSlab NFM 15" nil t)
 (global-display-line-numbers-mode)
 
