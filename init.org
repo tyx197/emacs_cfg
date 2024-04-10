@@ -1,11 +1,22 @@
-(set-language-environment "UTF-8")
+#+TITLE: init.org
+#+AUTHOR: Tao Yuxin/tyx197
 
+* Set file coding
+#+BEGIN_SRC emacs-lisp :tangle init.el
+(set-language-environment "UTF-8")
+#+END_SRC
+
+* Packages repo
+#+BEGIN_SRC emacs-lisp :tangle init.el
 (setq package-archives '(("gnu" . "https://mirrors.ustc.edu.cn/elpa/gnu/")
                          ("melpa" . "https://mirrors.ustc.edu.cn/elpa/melpa/")
                          ("nongnu" . "https://mirrors.ustc.edu.cn/elpa/nongnu/")))
 
 ;(setq package-install-upgrade-built-in t)
+#+END_SRC
 
+* Put backup files neatly away
+#+BEGIN_SRC emacs-lisp :tangle init.el
 (let ((backup-dir "~/tmp/emacs/backups")
       (auto-saves-dir "~/tmp/emacs/auto-saves/"))
   (dolist (dir (list backup-dir auto-saves-dir))
@@ -22,7 +33,10 @@
       version-control t      ; Use version numbers on backups,
       kept-new-versions 5    ; keep some new versions
       kept-old-versions 2)   ; and some old ones, too
+#+END_SRC
 
+* GUI
+#+BEGIN_SRC emacs-lisp :tangle init.el
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -40,7 +54,10 @@
     (add-hook 'server-after-make-frame-hook
 	      (lambda () (my/set-font-faces)))
     (my/set-font-faces))
+#+END_SRC
 
+* Navigation
+#+BEGIN_SRC emacs-lisp :tangle init.el
 ;(ivy-mode)
 ;(setq ivy-use-virtual-buffers t)
 ;(setq enable-recursive-minibuffers t)
@@ -120,7 +137,10 @@
 
 (use-package imenu-list
   :ensure t)
+#+END_SRC
 
+* Centaur-tabs
+#+BEGIN_SRC emacs-lisp :tangle init.el
 (require 'centaur-tabs)
 (centaur-tabs-mode t)
 (global-set-key (kbd "C-<prior>")  'centaur-tabs-backward)
@@ -133,19 +153,28 @@
 ;(setq centaur-tabs-close-button "X")
 (setq centaur-tabs-set-modified-marker t)
 (setq centaur-tabs-modified-marker "•")
+#+END_SRC
 
+* Pyim
+#+BEGIN_SRC emacs-lisp :tangle init.el
 (require 'pyim)
 (require 'pyim-basedict) ; 拼音词库设置，五笔用户 *不需要* 此行设置
 (pyim-basedict-enable)   ; 拼音词库，五笔用户 *不需要* 此行设置
 (setq default-input-method "pyim")
 (global-set-key (kbd "C-\\") 'toggle-input-method)
+#+END_SRC
 
+* Org
+#+BEGIN_SRC emacs-lisp :tangle init.el
 (setq org-roam-directory (file-truename "~/mind"))
 (org-roam-db-autosync-mode)
 (global-set-key (kbd "C-c n l") 'org-roam-buffer-toggle)
 (global-set-key (kbd "C-c n f") 'org-roam-node-find)
 (global-set-key (kbd "C-c n i") 'org-roam-node-insert)
+#+END_SRC
 
+* Verilog
+#+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package verilog-ts-mode
   :config
   (set-face-attribute 'verilog-ts-font-lock-grouping-keywords-face nil :foreground "DarkGoldenrod1")
@@ -201,7 +230,11 @@
   (setq verilog-ext-tags-backend 'tree-sitter)
   :config
   (verilog-ext-mode-setup) (which-function-mode 1))
+#+END_SRC
 
+* Custom file
+#+BEGIN_SRC emacs-lisp :tangle init.el
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
   (load custom-file))
+#+END_SRC
