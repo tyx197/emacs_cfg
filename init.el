@@ -1,8 +1,8 @@
 (set-language-environment "UTF-8")
 
 (setq package-archives '(("gnu" . "https://mirrors.ustc.edu.cn/elpa/gnu/")
-                         ("melpa" . "https://mirrors.ustc.edu.cn/elpa/melpa/")
-                         ("nongnu" . "https://mirrors.ustc.edu.cn/elpa/nongnu/")))
+			 ("melpa" . "https://mirrors.ustc.edu.cn/elpa/melpa/")
+			 ("nongnu" . "https://mirrors.ustc.edu.cn/elpa/nongnu/")))
 
 ;(setq package-install-upgrade-built-in t)
 
@@ -12,10 +12,10 @@
     (when (not (file-directory-p dir))
       (make-directory dir t)))
   (setq backup-directory-alist `(("." . ,backup-dir))
-        auto-save-file-name-transforms `((".*" ,auto-saves-dir t))
-        auto-save-list-file-prefix (concat auto-saves-dir ".saves-")
-        tramp-backup-directory-alist `((".*" . ,backup-dir))
-        tramp-auto-save-directory auto-saves-dir))
+	auto-save-file-name-transforms `((".*" ,auto-saves-dir t))
+	auto-save-list-file-prefix (concat auto-saves-dir ".saves-")
+	tramp-backup-directory-alist `((".*" . ,backup-dir))
+	tramp-auto-save-directory auto-saves-dir))
 
 (setq backup-by-copying t    ; Don't delink hardlinks
       delete-old-versions t  ; Clean up the backups
@@ -29,12 +29,12 @@
 ;(load-theme 'gruvbox t)
 (load-theme 'catppuccin t)
 (global-display-line-numbers-mode)
-(add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font Mono 15"))
+(add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font Mono 18"))
 (defun my/set-font-faces ()
   (message "Setting faces!")
   (set-fontset-font "fontset-default" 'han "sarasa-gothic")
-  (set-face-attribute 'fixed-pitch nil :font "Iosevka Nerd Font Mono" :height 150)
-  (set-face-attribute 'variable-pitch nil :font "Iosevka Nerd Font Mono" :height 150 :weight 'regular))
+  (set-face-attribute 'fixed-pitch nil :font "Iosevka Nerd Font Mono" :height 180)
+  (set-face-attribute 'variable-pitch nil :font "Iosevka Nerd Font Mono" :height 180 :weight 'regular))
 
 (if (daemonp)
     (add-hook 'server-after-make-frame-hook
@@ -63,7 +63,7 @@
   ;; available in the *Completions* buffer, add it to the
   ;; `completion-list-mode-map'.
   :bind (:map minibuffer-local-map
-         ("M-A" . marginalia-cycle))
+	 ("M-A" . marginalia-cycle))
 
   ;; The :init section is always executed.
   :init
@@ -103,9 +103,9 @@
   (delete 'embark-mixed-indicator embark-indicators)
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
+	       '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+		 nil
+		 (window-parameters (mode-line-format . none)))))
 
 ;; Consult users will also want the embark-consult package.
 (use-package embark-consult
@@ -201,6 +201,11 @@
   (setq verilog-ext-tags-backend 'tree-sitter)
   :config
   (verilog-ext-mode-setup) (which-function-mode 1))
+
+(use-package rainbow-delimiters
+  :ensure t
+  :hook
+  (verilog-ts-mode emacs-lisp-mode))
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
