@@ -26,9 +26,16 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
+
 ;(load-theme 'gruvbox t)
 (load-theme 'catppuccin t)
-(global-display-line-numbers-mode)
+
+;(global-display-line-numbers-mode)
+(use-package display-line-numbers-mode
+  :ensure nil
+  :hook
+  (verilog-ts-mode emacs-lisp-mode))
+
 (add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font Mono 18"))
 (defun my/set-font-faces ()
   (message "Setting faces!")
@@ -140,11 +147,40 @@
 (setq default-input-method "pyim")
 (global-set-key (kbd "C-\\") 'toggle-input-method)
 
+(use-package org
+  :ensure nil
+  :custom
+  (org-list-allow-alphabetical t)
+  (org-hide-leading-stars t)
+  (org-hide-emphasis-markers t)
+  (org-cycle-separator-lines 1)
+  (org-startup-with-inline-images t)
+  (org-blank-before-new-entry
+		    '((heading . nil)
+		      (plain-list-item . nil))))
+
 (setq org-roam-directory (file-truename "~/mind"))
 (org-roam-db-autosync-mode)
 (global-set-key (kbd "C-c n l") 'org-roam-buffer-toggle)
 (global-set-key (kbd "C-c n f") 'org-roam-node-find)
 (global-set-key (kbd "C-c n i") 'org-roam-node-insert)
+
+(use-package auto-fill
+  :ensure nil
+  :hook
+  (org-mode text-mode)
+  :custom
+  (fill-column 100))
+
+(use-package org-superstar
+  :ensure t
+  :hook
+  (org-mode))
+
+(use-package olivetti
+  :ensure t
+  :hook
+  (org-mode text-mode))
 
 (use-package verilog-ts-mode
   :config
