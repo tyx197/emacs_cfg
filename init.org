@@ -56,7 +56,7 @@
   (use-package display-line-numbers-mode
     :ensure nil
     :hook
-    (verilog-ts-mode emacs-lisp-mode))
+    (verilog-ts-mode emacs-lisp-mode scala-mode))
 #+END_SRC
 
 ** Font settings
@@ -291,6 +291,14 @@
     (setq verilog-ext-tags-backend 'tree-sitter)
     :config
     (verilog-ext-mode-setup) (which-function-mode 1))
+#+END_SRC
+
+* Scala
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (use-package scala-mode
+    :ensure t
+    :interpreter
+    ("scala" . scala-mode))
 #+END_SRC
 
 * Rainbow-delimiters

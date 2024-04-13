@@ -34,7 +34,7 @@
 (use-package display-line-numbers-mode
   :ensure nil
   :hook
-  (verilog-ts-mode emacs-lisp-mode))
+  (verilog-ts-mode emacs-lisp-mode scala-mode))
 
 (add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font Mono 18"))
 (defun my/set-font-faces ()
@@ -237,6 +237,11 @@
   (setq verilog-ext-tags-backend 'tree-sitter)
   :config
   (verilog-ext-mode-setup) (which-function-mode 1))
+
+(use-package scala-mode
+  :ensure t
+  :interpreter
+  ("scala" . scala-mode))
 
 (use-package rainbow-delimiters
   :ensure t
