@@ -128,6 +128,11 @@
 (use-package imenu-list
   :ensure t)
 
+(use-package beacon
+  :ensure t
+  :config
+  (beacon-mode 1))
+
 (require 'centaur-tabs)
 (centaur-tabs-mode t)
 (global-set-key (kbd "C-<prior>")  'centaur-tabs-backward)
