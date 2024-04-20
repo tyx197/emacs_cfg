@@ -36,12 +36,12 @@
   :hook
   (verilog-ts-mode emacs-lisp-mode scala-mode))
 
-(add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font Mono 18"))
+(add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font Mono 19"))
 (defun my/set-font-faces ()
   (message "Setting faces!")
   (set-fontset-font "fontset-default" 'han "sarasa-gothic")
-  (set-face-attribute 'fixed-pitch nil :font "Iosevka Nerd Font Mono" :height 180)
-  (set-face-attribute 'variable-pitch nil :font "Iosevka Nerd Font Mono" :height 180 :weight 'regular))
+  (set-face-attribute 'fixed-pitch nil :font "Iosevka Nerd Font Mono" :height 190)
+  (set-face-attribute 'variable-pitch nil :font "Iosevka Nerd Font Mono" :height 190 :weight 'regular))
 
 (if (daemonp)
     (add-hook 'server-after-make-frame-hook
@@ -128,6 +128,11 @@
 (use-package imenu-list
   :ensure t)
 
+(use-package avy
+  :ensure t
+  :bind
+  (("C-c SPC" . avy-goto-char)))
+
 (use-package beacon
   :ensure t
   :config
@@ -186,6 +191,44 @@
   :ensure t
   :hook
   (org-mode text-mode))
+
+(defun my/insert-verilog-file-header ()
+  "Insert headers to Verilog files."
+  (interactive)
+  (setq cur-file (read-from-minibuffer "file name ? " 
+		 (file-name-nondirectory (buffer-file-name))))
+  (setq cur-date (org-read-date))
+  (setq cur-author "Tao Yuxin")
+  (setq cur-email "ytaoai@connect.ust.hk")
+  (setq cur-description (read-from-minibuffer "description ? "))
+  (insert (format "//****************************************************************\\\n"))
+  (insert (format "// Copyright (C) %s %s, All right reserved.\n" (format-time-string "%Y") cur-author))
+  (insert (format "// File        : %s \n" cur-file))
+  (insert (format "// Author      : %s \n" cur-author))
+  (insert (format "// E-mail      : %s \n" cur-email))
+  (insert (format "// date        : %s \n" cur-date))
+  (insert (format "// Description : %s \n" cur-description))
+  (insert (format "//****************************************************************/\n"))
+  (insert (format "\n"))
+  (insert (format "// synopsys translate_off\n"))
+  (insert (format "`timescale 1ns/1ps\n"))
+  (insert (format "// synopsys translate_on\n"))
+  (insert (format "\n"))
+  (insert (format "module %s\n" (file-name-base cur-file)))
+  (insert (format "#(\n"))
+  (insert (format "    parameter TDLY = 1\n"))
+  (insert (format ")\n"))
+  (insert (format "(\n"))
+  (insert (format "    input wire clk,\n"))
+  (insert (format "    input wire rst_n,\n"))
+  (insert (format "    input wire i_dat,\n"))
+  (insert (format "    output wire o_dat\n"))
+  (insert (format ");\n"))
+  (insert (format "\n"))
+  (insert (format "\n"))
+  (insert (format "\n"))
+  (insert (format "\n"))
+  (insert (format "endmodule\n")))
 
 (use-package verilog-ts-mode
   :config
@@ -252,6 +295,11 @@
   :ensure t
   :hook
   (verilog-ts-mode emacs-lisp-mode))
+
+(use-package yasnippet
+  :ensure t
+  :hook
+  (verilog-ts-mode . yas-minor-mode))
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
