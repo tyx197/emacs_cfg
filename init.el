@@ -159,6 +159,10 @@
 
 (use-package org
   :ensure nil
+  :config
+  (add-to-list 'org-export-backends 'md)
+  (add-to-list 'org-export-backends 'beamer)
+  (add-to-list 'org-export-backends 'man)
   :custom
   (org-list-allow-alphabetical t)
   (org-hide-leading-stars t)
@@ -298,8 +302,19 @@
 
 (use-package yasnippet
   :ensure t
+  :init
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+  :bind
+  (("TAB" . yas-expand))
   :hook
-  (verilog-ts-mode . yas-minor-mode))
+  (verilog-ts-mode . yas-minor-mode)
+  :custom
+  (yas-indent-line nil)
+  :config
+  (yas-reload-all))
+
+(use-package wavedrom-mode
+  :ensure t)
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
