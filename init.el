@@ -52,11 +52,23 @@
 ;(setq ivy-use-virtual-buffers t)
 ;(setq enable-recursive-minibuffers t)
 
-(use-package vertico
-  :ensure t
+;(use-package vertico
+;  :ensure t
+;  :init
+;  (vertico-mode)
+;  (setq vertico-cycle t))
+
+(defun my/icomplete-styles ()
+  (setq-local completion-styles '(orderless)))
+
+(use-package icomplete
+  :ensure nil
   :init
-  (vertico-mode)
-  (setq vertico-cycle t))
+  (add-hook 'icomplete-minibuffer-setup-hook 'my/icomplete-styles)
+  :config
+  (set-face-attribute 'icomplete-selected-match nil :background "#313244" :foreground "#cdd6f4")
+  (define-key icomplete-minibuffer-map (kbd "C-.") nil)
+  (fido-vertical-mode t))
 
 (use-package orderless
   :ensure t
@@ -235,6 +247,8 @@
   (insert (format "endmodule\n")))
 
 (use-package verilog-ts-mode
+  :init
+  (add-to-list 'auto-mode-alist '("\\.s?vh?\\'" . verilog-ts-mode))
   :config
   (set-face-attribute 'verilog-ts-font-lock-grouping-keywords-face nil :foreground "DarkGoldenrod1")
   (set-face-attribute 'verilog-ts-font-lock-punctuation-face nil       :foreground "burlywood")
@@ -255,13 +269,12 @@
   (set-face-attribute 'verilog-ts-font-lock-modport-face nil           :foreground "light blue")
   (set-face-attribute 'verilog-ts-font-lock-direction-face nil         :foreground "RosyBrown3")
   (set-face-attribute 'verilog-ts-font-lock-translate-off-face nil     :background "gray20" :slant 'italic)
-  (set-face-attribute 'verilog-ts-font-lock-attribute-face nil         :foreground "orange1")
-  (add-to-list 'auto-mode-alist '("\\.s?vh?\\'" . verilog-ts-mode)))
+  (set-face-attribute 'verilog-ts-font-lock-attribute-face nil         :foreground "orange1"))
 
 (use-package verilog-ext
   :ensure t
   :hook
-  ((verilog-mode . verilog-ext-mode))
+  ((verilog-ts-mode . verilog-ext-mode))
   :init
   (setq verilog-ext-feature-list
    '(
