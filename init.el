@@ -329,6 +329,17 @@
 (use-package wavedrom-mode
   :ensure t)
 
+(use-package ox-hugo
+  :ensure t
+  :after ox)
+
+(defun my/hugo-current-time ()
+  "Get the current timestamp for hugo."
+  (interactive)
+  (let ((tz (format-time-string "%z")))
+    (insert (format-time-string "%Y-%m-%dT%T")
+	    (substring tz 0 3) ":" (substring tz 3 5))))
+
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
   (load custom-file))
