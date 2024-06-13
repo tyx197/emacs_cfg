@@ -317,14 +317,11 @@
   :ensure t
   :init
   (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
-  :bind
-  (("TAB" . yas-expand))
-  :hook
-  (verilog-ts-mode . yas-minor-mode)
   :custom
   (yas-indent-line nil)
   :config
-  (yas-reload-all))
+  (yas-reload-all)
+  (add-hook 'verilog-ts-mode-hook #'yas-minor-mode))
 
 (use-package wavedrom-mode
   :ensure t)
@@ -339,6 +336,13 @@
   (let ((tz (format-time-string "%z")))
     (insert (format-time-string "%Y-%m-%dT%T")
 	    (substring tz 0 3) ":" (substring tz 3 5))))
+
+(use-package corfu
+  :ensure t
+  :custom
+  (corfu-auto t)
+  :init
+  (global-corfu-mode))
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)

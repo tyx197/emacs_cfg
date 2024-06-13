@@ -1,0 +1,9 @@
+# contributer: Tao Yuxin ytaoai@connect.ust.hk
+# name: always
+# key: Acr
+# --
+
+always @(${1:posedge} ${2:clk} or ${3:\`RST_EDGE} ${4:rst_n}) begin
+    if($4 == ${5:\`RST_LVL})
+        $0
+end
