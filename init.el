@@ -26,189 +26,46 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq indent-line-function 'insert-tab)
 
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 ;(load-theme 'gruvbox t)
-(load-theme 'catppuccin t)
+;(load-theme 'catppuccin t)
 
-;(global-display-line-numbers-mode)
-(use-package display-line-numbers-mode
-  :ensure nil
-  :hook
-  (verilog-ts-mode emacs-lisp-mode scala-mode))
+(global-display-line-numbers-mode)
 
-(add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font Mono 19"))
+(add-to-list 'default-frame-alist '(font . "Unifont 17"))
 (defun my/set-font-faces ()
   (message "Setting faces!")
   (set-fontset-font "fontset-default" 'han "sarasa-gothic")
-  (set-face-attribute 'fixed-pitch nil :font "Iosevka Nerd Font Mono" :height 190)
-  (set-face-attribute 'variable-pitch nil :font "Iosevka Nerd Font Mono" :height 190 :weight 'regular))
+  (set-face-attribute 'fixed-pitch nil :font "Unifont" :height 170)
+  (set-face-attribute 'variable-pitch nil :font "Unifont" :height 170 :weight 'regular))
 
 (if (daemonp)
     (add-hook 'server-after-make-frame-hook
 	      (lambda () (my/set-font-faces)))
     (my/set-font-faces))
 
-;(ivy-mode)
-;(setq ivy-use-virtual-buffers t)
-;(setq enable-recursive-minibuffers t)
+(setq verilog-indent-level 4)
+(setq verilog-indent-level-module 0)
+(setq verilog-indent-level-declaration 0)
+(setq verilog-case-indent 4)
+(setq verilog-cexp-indent 4)
+(setq verilog-indent-lists nil)
+(setq verilog-indent-level-behavioral 4)
+(setq verilog-indent-level-directive 4)
+(setq verilog-auto-indent-on-newline nil)
+(setq verilog-tab-always-indent t)
+(setq verilog-indent-begin-after-if nil)
+(setq verilog-auto-newline nil)
+(setq verilog-auto-endcomments t)
+(setq verilog-auto-reset-widths t)
+(setq verilog-assignment-delay "#1 ")
+(setq verilog-auto-lineup nil)
 
-;(use-package vertico
-;  :ensure t
-;  :init
-;  (vertico-mode)
-;  (setq vertico-cycle t))
-
-(defun my/icomplete-styles ()
-  (setq-local completion-styles '(orderless)))
-
-(use-package icomplete
-  :ensure nil
-  :init
-  (add-hook 'icomplete-minibuffer-setup-hook 'my/icomplete-styles)
-  :config
-  (set-face-attribute 'icomplete-selected-match nil :background "#313244" :foreground "#cdd6f4")
-  (define-key icomplete-minibuffer-map (kbd "C-.") nil)
-  (fido-vertical-mode t))
-
-(use-package orderless
-  :ensure t
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
-
-(use-package marginalia
-  :ensure t
-  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
-  ;; available in the *Completions* buffer, add it to the
-  ;; `completion-list-mode-map'.
-  :bind (:map minibuffer-local-map
-	 ("M-A" . marginalia-cycle))
-
-  ;; The :init section is always executed.
-  :init
-
-  ;; Marginalia must be activated in the :init section of use-package such that
-  ;; the mode gets enabled right away. Note that this forces loading the
-  ;; package.
-  (marginalia-mode))
-
-(use-package consult
-  :ensure t
-  )
-
-(use-package embark
-  :ensure t
-
-  :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-
-  :init
-
-  ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command)
-
-  ;; Show the Embark target at point via Eldoc. You may adjust the
-  ;; Eldoc strategy, if you want to see the documentation from
-  ;; multiple providers. Beware that using this can be a little
-  ;; jarring since the message shown in the minibuffer can be more
-  ;; than one line, causing the modeline to move up and down:
-
-  ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
-  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
-
-  :config
-  (delete 'embark-mixed-indicator embark-indicators)
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-	       '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-		 nil
-		 (window-parameters (mode-line-format . none)))))
-
-;; Consult users will also want the embark-consult package.
-(use-package embark-consult
-  :ensure t ; only need to install it, embark loads it after consult if found
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
-
-(use-package ggtags
-  :ensure t
-  :hook
-  (verilog-ts-mode . ggtags-mode))
-
-(use-package imenu-list
-  :ensure t)
-
-(use-package avy
-  :ensure t
-  :bind
-  (("C-c SPC" . avy-goto-char)))
-
-(use-package beacon
-  :ensure t
-  :config
-  (beacon-mode 1))
-
-(require 'centaur-tabs)
-(centaur-tabs-mode t)
-(global-set-key (kbd "C-<prior>")  'centaur-tabs-backward)
-(global-set-key (kbd "C-<next>") 'centaur-tabs-forward)
-(setq centaur-tabs-style "bar")
-(setq centaur-tabs-set-icons t)
-;(setq centaur-tabs-plain-icons t)
-(setq centaur-tabs-gray-out-icons 'buffer)
-(setq centaur-tabs-set-bar 'over)
-;(setq centaur-tabs-close-button "X")
-(setq centaur-tabs-set-modified-marker t)
-(setq centaur-tabs-modified-marker "•")
-
-(require 'pyim)
-(require 'pyim-basedict) ; 拼音词库设置，五笔用户 *不需要* 此行设置
-(pyim-basedict-enable)   ; 拼音词库，五笔用户 *不需要* 此行设置
-(setq default-input-method "pyim")
-(global-set-key (kbd "C-\\") 'toggle-input-method)
-
-(use-package org
-  :ensure nil
-  :config
-  (add-to-list 'org-export-backends 'md)
-  (add-to-list 'org-export-backends 'beamer)
-  (add-to-list 'org-export-backends 'man)
-  :custom
-  (org-list-allow-alphabetical t)
-  (org-hide-leading-stars t)
-  (org-hide-emphasis-markers t)
-  (org-cycle-separator-lines 1)
-  (org-startup-with-inline-images t)
-  (org-blank-before-new-entry
-		    '((heading . nil)
-		      (plain-list-item . nil))))
-
-(setq org-roam-directory (file-truename "~/mind"))
-(org-roam-db-autosync-mode)
-(global-set-key (kbd "C-c n l") 'org-roam-buffer-toggle)
-(global-set-key (kbd "C-c n f") 'org-roam-node-find)
-(global-set-key (kbd "C-c n i") 'org-roam-node-insert)
-
-(use-package auto-fill
-  :ensure nil
-  :hook
-  (org-mode text-mode)
-  :custom
-  (fill-column 100))
-
-(use-package org-superstar
-  :ensure t
-  :hook
-  (org-mode))
-
-(use-package olivetti
-  :ensure t
-  :hook
-  (org-mode text-mode))
-
-(defun my/insert-verilog-file-header ()
+(defun  my/insert-verilog-file-header ()
   "Insert headers to Verilog files."
   (interactive)
   (setq cur-file (read-from-minibuffer "file name ? " 
@@ -246,103 +103,91 @@
   (insert (format "\n"))
   (insert (format "endmodule\n")))
 
-(use-package verilog-ts-mode
-  :init
-  (add-to-list 'auto-mode-alist '("\\.s?vh?\\'" . verilog-ts-mode))
-  :config
-  (set-face-attribute 'verilog-ts-font-lock-grouping-keywords-face nil :foreground "DarkGoldenrod1")
-  (set-face-attribute 'verilog-ts-font-lock-punctuation-face nil       :foreground "burlywood")
-  (set-face-attribute 'verilog-ts-font-lock-operator-face nil          :foreground "burlywood" :weight 'extra-bold)
-  (set-face-attribute 'verilog-ts-font-lock-brackets-face nil          :foreground "goldenrod")
-  (set-face-attribute 'verilog-ts-font-lock-parenthesis-face nil       :foreground "dark goldenrod")
-  (set-face-attribute 'verilog-ts-font-lock-curly-braces-face nil      :foreground "DarkGoldenrod2")
-  (set-face-attribute 'verilog-ts-font-lock-port-connection-face nil   :foreground "bisque2")
-  (set-face-attribute 'verilog-ts-font-lock-dot-name-face nil          :foreground "gray70")
-  (set-face-attribute 'verilog-ts-font-lock-brackets-content-face nil  :foreground "yellow green")
-  (set-face-attribute 'verilog-ts-font-lock-width-num-face nil         :foreground "chartreuse2")
-  (set-face-attribute 'verilog-ts-font-lock-width-type-face nil        :foreground "sea green" :weight 'bold)
-  (set-face-attribute 'verilog-ts-font-lock-module-face nil            :foreground "green1")
-  (set-face-attribute 'verilog-ts-font-lock-instance-face nil          :foreground "medium spring green")
-  (set-face-attribute 'verilog-ts-font-lock-time-event-face nil        :foreground "dark orange" :weight 'bold)
-  (set-face-attribute 'verilog-ts-font-lock-time-unit-face nil         :foreground "light steel blue")
-  (set-face-attribute 'verilog-ts-font-lock-preprocessor-face nil      :foreground "pale goldenrod")
-  (set-face-attribute 'verilog-ts-font-lock-modport-face nil           :foreground "light blue")
-  (set-face-attribute 'verilog-ts-font-lock-direction-face nil         :foreground "RosyBrown3")
-  (set-face-attribute 'verilog-ts-font-lock-translate-off-face nil     :background "gray20" :slant 'italic)
-  (set-face-attribute 'verilog-ts-font-lock-attribute-face nil         :foreground "orange1"))
-
-(use-package verilog-ext
-  :ensure t
-  :hook
-  ((verilog-ts-mode . verilog-ext-mode))
-  :init
-  (setq verilog-ext-feature-list
-   '(
-     ;font-lock
-     xref
-     ;capf
-     ;hierarchy
-     ;eglot
-     ;lsp
-     ;lsp-bridge
-     ;flycheck
-     ;beautify
-     ;navigation
-     ;template
-     ;formatter
-     ;compilation
-     imenu
-     which-func
-     ;hideshow
-     ;typedefs
-     ;time-stamp
-     ;block-end-comments
-     ;ports
-     ))
-  (setq verilog-ext-tags-backend 'tree-sitter)
-  :config
-  (verilog-ext-mode-setup) (which-function-mode 1))
-
-(use-package scala-mode
-  :ensure t
-  :interpreter
-  ("scala" . scala-mode))
-
-(use-package rainbow-delimiters
-  :ensure t
-  :hook
-  (verilog-ts-mode emacs-lisp-mode))
-
-(use-package yasnippet
-  :ensure t
-  :init
-  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
-  :custom
-  (yas-indent-line nil)
-  :config
-  (yas-reload-all)
-  (add-hook 'verilog-ts-mode-hook #'yas-minor-mode))
-
-(use-package wavedrom-mode
-  :ensure t)
-
-(use-package ox-hugo
-  :ensure t
-  :after ox)
-
-(defun my/hugo-current-time ()
-  "Get the current timestamp for hugo."
-  (interactive)
-  (let ((tz (format-time-string "%z")))
-    (insert (format-time-string "%Y-%m-%dT%T")
-	    (substring tz 0 3) ":" (substring tz 3 5))))
-
-(use-package corfu
-  :ensure t
-  :custom
-  (corfu-auto t)
-  :init
-  (global-corfu-mode))
+(defun meow-setup ()
+  (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+  (meow-motion-define-key
+   '("j" . meow-next)
+   '("k" . meow-prev)
+   '("<escape>" . ignore))
+  (meow-leader-define-key
+   ;; Use SPC (0-9) for digit arguments.
+   '("1" . meow-digit-argument)
+   '("2" . meow-digit-argument)
+   '("3" . meow-digit-argument)
+   '("4" . meow-digit-argument)
+   '("5" . meow-digit-argument)
+   '("6" . meow-digit-argument)
+   '("7" . meow-digit-argument)
+   '("8" . meow-digit-argument)
+   '("9" . meow-digit-argument)
+   '("0" . meow-digit-argument)
+   '("/" . meow-keypad-describe-key)
+   '("?" . meow-cheatsheet))
+  (meow-normal-define-key
+   '("0" . meow-expand-0)
+   '("9" . meow-expand-9)
+   '("8" . meow-expand-8)
+   '("7" . meow-expand-7)
+   '("6" . meow-expand-6)
+   '("5" . meow-expand-5)
+   '("4" . meow-expand-4)
+   '("3" . meow-expand-3)
+   '("2" . meow-expand-2)
+   '("1" . meow-expand-1)
+   '("-" . negative-argument)
+   '(";" . meow-reverse)
+   '("," . meow-inner-of-thing)
+   '("." . meow-bounds-of-thing)
+   '("[" . meow-beginning-of-thing)
+   '("]" . meow-end-of-thing)
+   '("a" . meow-append)
+   '("A" . meow-open-below)
+   '("b" . meow-back-word)
+   '("B" . meow-back-symbol)
+   '("c" . meow-change)
+   '("d" . meow-delete)
+   '("D" . meow-backward-delete)
+   '("e" . meow-next-word)
+   '("E" . meow-next-symbol)
+   '("f" . meow-find)
+   '("g" . meow-cancel-selection)
+   '("G" . meow-grab)
+   '("h" . meow-left)
+   '("H" . meow-left-expand)
+   '("i" . meow-insert)
+   '("I" . meow-open-above)
+   '("j" . meow-next)
+   '("J" . meow-next-expand)
+   '("k" . meow-prev)
+   '("K" . meow-prev-expand)
+   '("l" . meow-right)
+   '("L" . meow-right-expand)
+   '("m" . meow-join)
+   '("n" . meow-search)
+   '("o" . meow-block)
+   '("O" . meow-to-block)
+   '("p" . meow-yank)
+   '("q" . meow-quit)
+   '("Q" . meow-goto-line)
+   '("r" . meow-replace)
+   '("R" . meow-swap-grab)
+   '("s" . meow-kill)
+   '("t" . meow-till)
+   '("u" . meow-undo)
+   '("U" . meow-undo-in-selection)
+   '("v" . meow-visit)
+   '("w" . meow-mark-word)
+   '("W" . meow-mark-symbol)
+   '("x" . meow-line)
+   '("X" . meow-goto-line)
+   '("y" . meow-save)
+   '("Y" . meow-sync-grab)
+   '("z" . meow-pop-selection)
+   '("'" . repeat)
+   '("<escape>" . ignore)))
+(require 'meow)
+(meow-setup)
+(meow-global-mode 1)
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
