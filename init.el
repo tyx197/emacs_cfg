@@ -4,7 +4,7 @@
 			 ("melpa" . "https://mirrors.ustc.edu.cn/elpa/melpa/")
 			 ("nongnu" . "https://mirrors.ustc.edu.cn/elpa/nongnu/")))
 
-;(setq package-install-upgrade-built-in t)
+(add-to-list 'load-path "~/.emacs.d/site-lisp")
 
 (let ((backup-dir "~/tmp/emacs/backups")
       (auto-saves-dir "~/tmp/emacs/auto-saves/"))
