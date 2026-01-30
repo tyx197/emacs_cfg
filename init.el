@@ -36,12 +36,12 @@
 
 (global-display-line-numbers-mode)
 
-(add-to-list 'default-frame-alist '(font . "Unifont 17"))
+(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-12"))
 (defun my/set-font-faces ()
   (message "Setting faces!")
   (set-fontset-font "fontset-default" 'han "sarasa-gothic")
-  (set-face-attribute 'fixed-pitch nil :font "Unifont" :height 170)
-  (set-face-attribute 'variable-pitch nil :font "Unifont" :height 170 :weight 'regular))
+  (set-face-attribute 'fixed-pitch nil :font "DejaVu Sans Mono" :height 120)
+  (set-face-attribute 'variable-pitch nil :font "DejaVu Sans Mono" :height 120 :weight 'regular))
 
 (if (daemonp)
     (add-hook 'server-after-make-frame-hook
@@ -105,6 +105,7 @@
 
 (defun meow-setup ()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+  (setq meow-beacon-indicator-delay 20)
   (meow-motion-define-key
    '("j" . meow-next)
    '("k" . meow-prev)
@@ -188,6 +189,13 @@
 (require 'meow)
 (meow-setup)
 (meow-global-mode 1)
+
+(define-key key-translation-map (kbd "C-;") [escape])
+(fido-vertical-mode 1)
+(with-eval-after-load 'completion-preview
+  (define-key completion-preview-active-mode-map (kbd "C-n") #'completion-preview-next-candidate)
+  (define-key completion-preview-active-mode-map (kbd "C-p") #'completion-preview-prev-candidate))
+(global-completion-preview-mode 1)
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
