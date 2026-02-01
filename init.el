@@ -106,7 +106,7 @@
 
 (defun meow-setup ()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
-  (setq meow-beacon-indicator-delay 20)
+  (setq meow-expand-hint-remove-delay 20)
   (meow-motion-define-key
    '("j" . meow-next)
    '("k" . meow-prev)
@@ -166,6 +166,7 @@
    '("L" . meow-right-expand)
    '("m" . meow-join)
    '("n" . meow-search)
+   '("N" . meow-pop-search)
    '("o" . meow-block)
    '("O" . meow-to-block)
    '("p" . meow-yank)
