@@ -196,12 +196,26 @@
 (meow-setup)
 (meow-global-mode 1)
 
-(define-key key-translation-map (kbd "C-;") [escape])
 (fido-vertical-mode 1)
 (with-eval-after-load 'completion-preview
-  (define-key completion-preview-active-mode-map (kbd "C-n") #'completion-preview-next-candidate)
-  (define-key completion-preview-active-mode-map (kbd "C-p") #'completion-preview-prev-candidate))
+  (keymap-set completion-preview-active-mode-map "C-i" #'completion-preview-insert)
+  (keymap-set completion-preview-active-mode-map "<tab>" #'completion-preview-insert)
+  (keymap-set completion-preview-active-mode-map "TAB" #'completion-preview-insert)
+  (keymap-set completion-preview-active-mode-map "C-n" #'completion-at-point)
+  (keymap-set completion-preview-active-mode-map "C-p" #'completion-preview-prev-candidate))
 (global-completion-preview-mode 1)
+
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (setq-local completion-cycle-threshold t)))
+
+(with-eval-after-load 'corfu
+  (keymap-set corfu-map "C-n" #'corfu-next)
+  (keymap-set corfu-map "C-p" #'corfu-previous))
+
+(setq corfu-auto nil)
+(setq corfu-quit-no-match t)
+(global-corfu-mode)
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
