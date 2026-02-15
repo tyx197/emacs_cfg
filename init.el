@@ -110,6 +110,7 @@
 (defun meow-setup ()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
   (setq meow-expand-hint-remove-delay 20)
+  (keymap-set meow-insert-state-keymap "C-;" #'meow-insert-exit)
   (meow-motion-define-key
    '("j" . meow-next)
    '("k" . meow-prev)
