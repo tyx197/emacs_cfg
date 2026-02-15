@@ -23,6 +23,9 @@
       kept-new-versions 5    ; keep some new versions
       kept-old-versions 2)   ; and some old ones, too
 
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+
 (setq inhibit-startup-screen t)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
