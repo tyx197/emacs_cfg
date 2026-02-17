@@ -33,6 +33,7 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
+(global-set-key (kbd "C-c i") 'indent-relative)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 ;(load-theme 'gruvbox t)
