@@ -44,7 +44,7 @@
 (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-12"))
 (defun my/set-font-faces ()
   (message "Setting faces!")
-  (set-fontset-font "fontset-default" 'han "sarasa-gothic")
+  (set-fontset-font "fontset-default" 'han "Sarasa Gothic SC")
   (set-face-attribute 'fixed-pitch nil :font "DejaVu Sans Mono" :height 120)
   (set-face-attribute 'variable-pitch nil :font "DejaVu Sans Mono" :height 120 :weight 'regular))
 
@@ -75,7 +75,7 @@
   (interactive)
   (setq cur-file (read-from-minibuffer "file name ? " 
 		 (file-name-nondirectory (buffer-file-name))))
-  (setq cur-date (org-read-date))
+  (setq cur-date (format-time-string "%Y-%m-%d"))
   (setq cur-author "Tao Yuxin")
   (setq cur-email "ytaoai@connect.ust.hk")
   (setq cur-description (read-from-minibuffer "description ? "))
