@@ -37,8 +37,6 @@
 (global-set-key (kbd "C-c i") 'indent-relative)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-;(load-theme 'gruvbox t)
-;(load-theme 'catppuccin t)
 
 (global-display-line-numbers-mode)
 
@@ -198,7 +196,26 @@
 (meow-setup)
 (meow-global-mode 1)
 
-(fido-vertical-mode 1)
+;(fido-vertical-mode 1)
+(vertico-mode 1)
+(setq completion-styles '(orderless basic)
+      completion-category-defaults nil
+      completion-category-overrides '((file (styles . (basic partial-completion)))))
+
+(marginalia-mode 1)
+
+(global-set-key (kbd "C-s") 'consult-line)
+(global-set-key (kbd "M-y") 'consult-yank-pop)
+(global-set-key (kbd "C-x b") 'consult-buffer)
+(global-set-key (kbd "C-x r b") 'consult-bookmark)
+(global-set-key (kbd "M-g g") 'consult-goto-line)
+(global-set-key (kbd "M-g m") 'consult-mark)
+(global-set-key (kbd "M-s d") 'consult-find)
+(global-set-key (kbd "M-s g") 'consult-ripgrep)
+(global-set-key (kbd "M-s l") 'consult-line-multi)
+(global-set-key [remap switch-to-buffer] 'consult-buffer)
+(global-set-key [remap imenu] 'consult-imenu)
+
 (with-eval-after-load 'completion-preview
   (keymap-set completion-preview-active-mode-map "C-i" #'completion-preview-insert)
   (keymap-set completion-preview-active-mode-map "<tab>" #'completion-preview-insert)
@@ -218,6 +235,12 @@
 (setq corfu-auto nil)
 (setq corfu-quit-no-match t)
 (global-corfu-mode)
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '(verilog-mode . ("slang-server" "--stdio"))))
+               ;'(verilog-mode . ("verible-verilog-ls"))))
+(add-hook 'verilog-mode-hook 'eglot-ensure)
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
