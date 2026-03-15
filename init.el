@@ -40,12 +40,13 @@
 
 (global-display-line-numbers-mode)
 
-(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-12"))
+(add-to-list 'default-frame-alist '(font . "UnifontExMono-12"))
 (defun my/set-font-faces ()
   (message "Setting faces!")
-  (set-fontset-font "fontset-default" 'han "Sarasa Gothic SC")
-  (set-face-attribute 'fixed-pitch nil :font "DejaVu Sans Mono" :height 120)
-  (set-face-attribute 'variable-pitch nil :font "DejaVu Sans Mono" :height 120 :weight 'regular))
+  (set-fontset-font "fontset-default" 'han "UnifontExMono")
+  (set-fontset-font "fontset-default" 'cjk-misc "UnifontExMono")
+  (set-face-attribute 'fixed-pitch nil :font "UnifontExMono" :height 120)
+  (set-face-attribute 'variable-pitch nil :font "UnifontExMono" :height 120 :weight 'regular))
 
 (if (daemonp)
     (add-hook 'server-after-make-frame-hook
