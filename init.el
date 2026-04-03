@@ -40,13 +40,13 @@
 
 (global-display-line-numbers-mode)
 
-(add-to-list 'default-frame-alist '(font . "UnifontExMono-12"))
+(add-to-list 'default-frame-alist '(font . "UnifontExMono:pixelsize=32"))
 (defun my/set-font-faces ()
   (message "Setting faces!")
-  (set-fontset-font "fontset-default" 'han "UnifontExMono")
-  (set-fontset-font "fontset-default" 'cjk-misc "UnifontExMono")
-  (set-face-attribute 'fixed-pitch nil :font "UnifontExMono" :height 120)
-  (set-face-attribute 'variable-pitch nil :font "UnifontExMono" :height 120 :weight 'regular))
+  (set-fontset-font "fontset-default" 'han "UnifontExMono:pixelsize=32")
+  (set-fontset-font "fontset-default" 'cjk-misc "UnifontExMono:pixelsize=32")
+  (set-face-attribute 'fixed-pitch nil :font "UnifontExMono:pixelsize=32")
+  (set-face-attribute 'variable-pitch nil :font "UnifontExMono:pixelsize=32" :weight 'regular))
 
 (if (daemonp)
     (add-hook 'server-after-make-frame-hook
